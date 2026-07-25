@@ -199,7 +199,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
               rel="noopener noreferrer"
               className="font-bold text-pink-600 hover:text-pink-700 hover:underline flex items-center"
             >
-              <span>Get Lifetime License ($8)</span>
+              <span>Get Lifetime License</span>
               <ArrowRight className="w-3.5 h-3.5 ml-1" />
             </a>
           </div>

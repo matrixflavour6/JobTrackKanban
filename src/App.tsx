@@ -6,6 +6,7 @@ import {
   LicenseState
 } from './utils/storage';
 import { JobApplication, StageId, INITIAL_SAMPLE_JOBS } from './types';
+import { parseClipboardImport, ParsedJobInfo } from './utils/portalParser';
 import { Header } from './components/Header';
 import { KanbanBoard } from './components/KanbanBoard';
 import { TableView } from './components/TableView';
@@ -35,6 +36,7 @@ export default function App() {
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
   const [isToolkitModalOpen, setIsToolkitModalOpen] = useState(false);
   const [isPortalSyncModalOpen, setIsPortalSyncModalOpen] = useState(false);
+  const [clippedJob, setClippedJob] = useState<ParsedJobInfo | null>(null);
 
   // Toast Notification State
   const [toast, setToast] = useState<{ message: string; type?: 'success' | 'info' | 'error' } | null>(null);
@@ -50,6 +52,22 @@ export default function App() {
   useEffect(() => {
     const loaded = loadApplications();
     setApplications(loaded);
+  }, []);
+
+  // Detect a job clipped via the browser bookmarklet (?clip=<payload>)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const clip = params.get('clip');
+    if (clip) {
+      const parsed = parseClipboardImport(clip);
+      if (parsed) {
+        setClippedJob(parsed);
+        setIsPortalSyncModalOpen(true);
+      }
+      // Strip the param so refreshing/sharing the URL doesn't re-trigger it
+      const cleanUrl = window.location.pathname + window.location.hash;
+      window.history.replaceState({}, '', cleanUrl);
+    }
   }, []);
 
   // Save changes to localStorage whenever applications update
@@ -315,7 +333,11 @@ export default function App() {
 
       <PortalSyncModal
         isOpen={isPortalSyncModalOpen}
-        onClose={() => setIsPortalSyncModalOpen(false)}
+        onClose={() => {
+          setIsPortalSyncModalOpen(false);
+          setClippedJob(null);
+        }}
+        initialClippedJob={clippedJob}
         onAddJob={(newJob) => {
           const fullJob: JobApplication = {
             ...newJob,

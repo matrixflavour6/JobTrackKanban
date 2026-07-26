@@ -182,7 +182,7 @@ Best,
                   Job Search Toolkit
                 </h2>
                 <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-purple-500 text-white uppercase tracking-wider">
-                  Toolkit Included Free
+                  $8 Toolkit Included Free
                 </span>
               </div>
               <p className="text-xs text-slate-300">
@@ -208,7 +208,7 @@ Best,
                 Want 25+ More Templates & Salary Negotiation Spreadsheet?
               </span>
               <p className="text-purple-800 text-[11px]">
-                Get the complete Gumroad Job Search Master Kit or copy free preview scripts below!
+                Get the complete Gumroad Job Search Master Kit for $8 or copy free preview scripts below!
               </p>
             </div>
           </div>
@@ -218,7 +218,7 @@ Best,
             rel="noopener noreferrer"
             className="shrink-0 inline-flex items-center justify-center px-4 py-2 rounded-lg bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs shadow-xs transition-colors cursor-pointer"
           >
-            Get Full Kit
+            Get Full Kit ($8)
             <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
           </a>
         </div>

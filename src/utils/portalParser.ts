@@ -212,3 +212,49 @@ function capitalizeWords(str: string): string {
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 }
+
+/**
+ * Decodes the payload produced by the browser-clipper bookmarklet.
+ * The bookmarklet scrapes schema.org JobPosting JSON-LD (or Open Graph
+ * meta tags as a fallback) directly from the job posting page — running
+ * in that page's own context, so it isn't subject to cross-origin
+ * fetch restrictions the way a server-side or in-app fetch would be.
+ */
+export function parseClipboardImport(raw: string): ParsedJobInfo | null {
+  try {
+    const json = decodeURIComponent(escape(atob(raw)));
+    const data = JSON.parse(json);
+
+    const tags = ['Browser Clip'];
+    if (data.jobUrl) {
+      try {
+        const host = new URL(data.jobUrl).hostname.toLowerCase();
+        if (host.includes('linkedin')) tags.push('LinkedIn');
+        else if (host.includes('greenhouse')) tags.push('Greenhouse');
+        else if (host.includes('lever')) tags.push('Lever');
+        else if (host.includes('indeed')) tags.push('Indeed');
+        else if (host.includes('workday')) tags.push('Workday');
+        else if (host.includes('glassdoor')) tags.push('Glassdoor');
+        else if (host.includes('wellfound') || host.includes('angel.co')) tags.push('Wellfound');
+        else if (host.includes('ziprecruiter')) tags.push('ZipRecruiter');
+      } catch {
+        // ignore malformed URL
+      }
+    }
+
+    return {
+      company: data.company || 'Company Name',
+      position: data.position || 'Job Title',
+      location: data.location || '',
+      salary: data.salary || '',
+      portalName: data.portalName || 'Browser Clip',
+      tags,
+      jobUrl: data.jobUrl || '',
+      notes: data.notes ? `Auto-clipped from job posting:\n\n${data.notes}` : 'Auto-clipped from browser',
+      priority: 'medium',
+      stage: 'applied'
+    };
+  } catch {
+    return null;
+  }
+}

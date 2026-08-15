@@ -12,6 +12,7 @@ import {
   Calendar
 } from 'lucide-react';
 import { JobApplication, STAGES } from '../types';
+import { LockedGate } from './LockedGate';
 import { SankeyFlow } from './charts/SankeyFlow';
 import { ActivityHeatmap } from './charts/ActivityHeatmap';
 import { ResponseTimeHistogram } from './charts/ResponseTimeHistogram';
@@ -20,9 +21,10 @@ import { ConversionTrend } from './charts/ConversionTrend';
 interface AnalyticsViewProps {
   applications: JobApplication[];
   onEditJob: (job: JobApplication) => void;
+  isLicensed: boolean;
 }
 
-export const AnalyticsView: React.FC<AnalyticsViewProps> = ({ applications, onEditJob }) => {
+export const AnalyticsView: React.FC<AnalyticsViewProps> = ({ applications, onEditJob, isLicensed }) => {
   const total = applications.length;
   const applied = applications.filter(a => a.stage === 'applied').length;
   const interviewing = applications.filter(a => a.stage === 'interview').length;
@@ -110,21 +112,29 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({ applications, onEd
 
       </div>
 
-      {/* New: Flow diagram + supporting visualizations */}
-      <div>
-        <h3 className="font-display font-semibold text-ink text-base mb-3 flex items-center">
-          <TrendingUp className="w-4 h-4 mr-2 text-ledger" />
-          Where Your Applications Go
-        </h3>
-        <SankeyFlow applications={applications} />
-      </div>
+      {/* New: Flow diagram + supporting visualizations — licensed feature */}
+      <LockedGate
+        unlocked={isLicensed}
+        title="Advanced Analytics is a licensed feature"
+        description="Flow diagram, response-time trends, and activity heatmap — activate your license to unlock them. The pipeline funnel below stays free."
+      >
+        <div className="space-y-6">
+          <div>
+            <h3 className="font-display font-semibold text-ink text-base mb-3 flex items-center">
+              <TrendingUp className="w-4 h-4 mr-2 text-ledger" />
+              Where Your Applications Go
+            </h3>
+            <SankeyFlow applications={applications} />
+          </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <ResponseTimeHistogram applications={applications} />
-        <ActivityHeatmap applications={applications} />
-      </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <ResponseTimeHistogram applications={applications} />
+            <ActivityHeatmap applications={applications} />
+          </div>
 
-      <ConversionTrend applications={applications} />
+          <ConversionTrend applications={applications} />
+        </div>
+      </LockedGate>
 
       {/* Main Grid: Pipeline Funnel + Overdue Reminders */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

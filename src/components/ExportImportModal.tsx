@@ -16,6 +16,7 @@ import { JobApplication } from '../types';
 import { exportToJSON, exportToCSV, parseImportJSON } from '../utils/storage';
 import { downloadBulkIcsFile } from '../utils/icsExport';
 import { GoogleDriveSync } from './GoogleDriveSync';
+import { LockedGate } from './LockedGate';
 
 interface ExportImportModalProps {
   isOpen: boolean;
@@ -24,6 +25,7 @@ interface ExportImportModalProps {
   onImportData: (data: JobApplication[], mode: 'replace' | 'merge') => void;
   onResetSampleData: () => void;
   onClearAllData: () => void;
+  isLicensed: boolean;
 }
 
 export const ExportImportModal: React.FC<ExportImportModalProps> = ({
@@ -33,6 +35,7 @@ export const ExportImportModal: React.FC<ExportImportModalProps> = ({
   onImportData,
   onResetSampleData,
   onClearAllData,
+  isLicensed,
 }) => {
   const [importFile, setImportFile] = useState<File | null>(null);
   const [importResult, setImportResult] = useState<{ success: boolean; data?: JobApplication[]; error?: string } | null>(null);
@@ -126,13 +129,20 @@ export const ExportImportModal: React.FC<ExportImportModalProps> = ({
           </div>
 
           {/* Section 1.5: Google Drive Sync */}
-          <GoogleDriveSync
-            applications={applications}
-            onRestoreData={(data) => {
-              onImportData(data, 'replace');
-              onClose();
-            }}
-          />
+          <LockedGate
+            unlocked={isLicensed}
+            title="Google Drive Sync is a licensed feature"
+            description="Back up your board to your own Drive and restore it on other devices — activate your license to unlock it."
+            compact
+          >
+            <GoogleDriveSync
+              applications={applications}
+              onRestoreData={(data) => {
+                onImportData(data, 'replace');
+                onClose();
+              }}
+            />
+          </LockedGate>
 
           {/* Section 2: Export Data */}
           <div>

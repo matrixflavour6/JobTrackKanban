@@ -18,19 +18,22 @@ import { JobApplication, StageId } from '../types';
 import { parseJobPortalUrl, parseEmailText, ParsedJobInfo } from '../utils/portalParser';
 import { scanGmailForApplications, GmailCandidate } from '../utils/gmailSync';
 import { isGoogleSignedIn, signInWithGoogle } from '../utils/googleAuth';
+import { LockedGate } from './LockedGate';
 
 interface PortalSyncModalProps {
   isOpen: boolean;
   onClose: () => void;
   onAddJob: (job: Omit<JobApplication, 'id' | 'updatedAt'>) => void;
   initialClippedJob?: ParsedJobInfo | null;
+  isLicensed: boolean;
 }
 
 export const PortalSyncModal: React.FC<PortalSyncModalProps> = ({
   isOpen,
   onClose,
   onAddJob,
-  initialClippedJob
+  initialClippedJob,
+  isLicensed
 }) => {
   const [activeTab, setActiveTab] = useState<'url' | 'email' | 'bookmarklet' | 'clipped'>('url');
 
@@ -518,6 +521,12 @@ export const PortalSyncModal: React.FC<PortalSyncModalProps> = ({
           {activeTab === 'email' && (
             <div className="space-y-4">
               {/* Gmail Auto-Scan */}
+              <LockedGate
+                unlocked={isLicensed}
+                title="Gmail Auto-Scan is a licensed feature"
+                description="Scan your inbox for application-confirmation emails and add them automatically — activate your license to unlock it."
+                compact
+              >
               <div className="p-4 bg-plum-soft/50 border border-plum/60 rounded-2xl space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
@@ -573,6 +582,7 @@ export const PortalSyncModal: React.FC<PortalSyncModalProps> = ({
                   </div>
                 )}
               </div>
+              </LockedGate>
 
               <div className="flex items-center gap-2 text-[10px] text-slate-400 uppercase font-semibold">
                 <div className="h-px bg-slate-200 flex-1" />

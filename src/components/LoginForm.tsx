@@ -103,7 +103,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess, onEnterDem
           <Briefcase className="w-7 h-7 text-white" />
         </div>
 
-        <h1 className="text-2xl font-display font-semibold tracking-tight">JobTrack <span className="text-ledger italic">Ledger</span></h1>
+        <h1 className="text-2xl font-display font-semibold tracking-tight">JobTrack <span className="text-ledger">Ledger</span></h1>
         <p className="text-xs text-paper/70 mt-1 max-w-sm mx-auto font-ledger-mono">
           Google Account + One-Time Gumroad License
         </p>

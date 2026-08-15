@@ -15,6 +15,9 @@ import { AnalyticsView } from './components/AnalyticsView';
 import { OfferComparisonView } from './components/OfferComparisonView';
 import { ProfilePage } from './components/ProfilePage';
 import { LoginPage } from './components/LoginPage';
+import { LandingPage } from './components/LandingPage';
+import { AppleFooter } from './components/AppleFooter';
+import { LockedGate } from './components/LockedGate';
 import { JobModal } from './components/JobModal';
 import { ExportImportModal } from './components/ExportImportModal';
 import { ToolkitModal } from './components/ToolkitModal';
@@ -195,10 +198,13 @@ export default function App() {
     <div className="min-h-screen bg-paper text-ink font-sans flex flex-col selection:bg-ledger selection:text-white">
 
       <Routes>
+        <Route path="/" element={<LandingPage />} />
+
         <Route
           path="/login"
           element={
             <LoginPage
+              licenseState={licenseState}
               onLoginSuccess={(newLicense) => {
                 setLicenseState(newLicense);
                 showToast(`License Activated: Welcome ${newLicense.userName}!`, 'success');
@@ -238,7 +244,7 @@ export default function App() {
                       Demo Suite
                     </div>
                     <span className="font-medium text-ink">
-                      Interactive preview. Activate your <strong>Gumroad License Key</strong> to enable full commercial features & backup sync.
+                      Full board, table &amp; export are free. Activate your <strong>Gumroad License Key</strong> to unlock Offer Compare, ATS Match, Advanced Analytics &amp; Google Sync.
                     </span>
                   </div>
                   <button
@@ -288,8 +294,6 @@ export default function App() {
 
                 {/* Routed View Content */}
                 <Routes>
-                  <Route path="/" element={<Navigate to="/board" replace />} />
-
                   <Route path="/board" element={
                     <KanbanBoard
                       applications={filteredApplications}
@@ -313,14 +317,21 @@ export default function App() {
                     <AnalyticsView
                       applications={applications}
                       onEditJob={handleEditJob}
+                      isLicensed={licenseState.isAuthenticated && !licenseState.isGuest}
                     />
                   } />
 
                   <Route path="/compare" element={
-                    <OfferComparisonView
-                      applications={applications}
-                      onUpdateJob={handleUpdateJob}
-                    />
+                    <LockedGate
+                      unlocked={licenseState.isAuthenticated && !licenseState.isGuest}
+                      title="Offer Comparison is a licensed feature"
+                      description="Weighted scoring across compensation, commute, culture, and growth — activate your license to unlock it."
+                    >
+                      <OfferComparisonView
+                        applications={applications}
+                        onUpdateJob={handleUpdateJob}
+                      />
+                    </LockedGate>
                   } />
 
                   <Route path="/profile" element={
@@ -337,30 +348,7 @@ export default function App() {
 
               </main>
 
-              {/* Footer Bar */}
-              <footer className="border-t border-ink/8 bg-paper/70 backdrop-blur-md py-4 text-xs text-ink-soft mt-auto">
-                <div className="max-w-[1800px] w-full mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2">
-                  <div className="flex items-center space-x-2 font-ledger-mono">
-                    <span className="font-semibold text-ink">JobTrack Ledger</span>
-                    <span>•</span>
-                    <span>Stored only in this browser</span>
-                  </div>
-                  <div className="flex items-center space-x-4">
-                    <button
-                      onClick={() => setIsToolkitModalOpen(true)}
-                      className="hover:text-ink font-medium cursor-pointer transition-colors"
-                    >
-                      Job Search Toolkit
-                    </button>
-                    <button
-                      onClick={() => setIsExportModalOpen(true)}
-                      className="hover:text-ink font-medium cursor-pointer transition-colors"
-                    >
-                      Export / Backup
-                    </button>
-                  </div>
-                </div>
-              </footer>
+              <AppleFooter />
             </>
           }
         />
@@ -382,11 +370,13 @@ export default function App() {
         onImportData={handleImportData}
         onResetSampleData={handleResetSampleData}
         onClearAllData={handleClearAllData}
+        isLicensed={licenseState.isAuthenticated && !licenseState.isGuest}
       />
 
       <ToolkitModal
         isOpen={isToolkitModalOpen}
         onClose={() => setIsToolkitModalOpen(false)}
+        isLicensed={licenseState.isAuthenticated && !licenseState.isGuest}
       />
 
       <PortalSyncModal
@@ -396,6 +386,7 @@ export default function App() {
           setClippedJob(null);
         }}
         initialClippedJob={clippedJob}
+        isLicensed={licenseState.isAuthenticated && !licenseState.isGuest}
         onAddJob={(newJob) => {
           const fullJob: JobApplication = {
             ...newJob,

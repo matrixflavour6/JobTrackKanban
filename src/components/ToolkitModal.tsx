@@ -16,13 +16,15 @@ import {
   AlertTriangle
 } from 'lucide-react';
 import { matchResumeToJobDescription, KeywordMatchResult } from '../utils/atsMatcher';
+import { LockedGate } from './LockedGate';
 
 interface ToolkitModalProps {
   isOpen: boolean;
   onClose: () => void;
+  isLicensed: boolean;
 }
 
-export const ToolkitModal: React.FC<ToolkitModalProps> = ({ isOpen, onClose }) => {
+export const ToolkitModal: React.FC<ToolkitModalProps> = ({ isOpen, onClose, isLicensed }) => {
   const [activeTab, setActiveTab] = useState<'cover' | 'email' | 'salary' | 'checklist' | 'ats'>('email');
   const [copiedIndex, setCopiedIndex] = useState<string | null>(null);
   const [resumeText, setResumeText] = useState('');
@@ -310,6 +312,12 @@ Best,
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 text-xs text-ink-soft bg-paper-dim/50">
           
           {activeTab === 'ats' ? (
+            <LockedGate
+              unlocked={isLicensed}
+              title="ATS Keyword Match is a licensed feature"
+              description="Compare your resume against any job description entirely in your browser — activate your license to unlock it."
+              compact
+            >
             <div className="space-y-4">
               <div className="bg-white border border-ink/10 rounded-xl p-4 shadow-2xs">
                 <h3 className="font-bold text-ink text-sm mb-1 flex items-center">
@@ -410,6 +418,7 @@ Best,
                 </div>
               )}
             </div>
+            </LockedGate>
           ) : activeTab !== 'checklist' ? (
             templates[activeTab].map((item) => (
               <div key={item.id} className="bg-white border border-ink/10 rounded-xl p-4 shadow-2xs space-y-2">

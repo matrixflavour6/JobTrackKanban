@@ -81,16 +81,22 @@ export const Header: React.FC<HeaderProps> = ({
             <div className="min-w-0">
               <div className="flex items-center space-x-2.5 flex-wrap">
                 <h1 className="text-xl sm:text-2xl font-display font-semibold text-ink tracking-tight truncate">
-                  JobTrack <span className="text-ledger italic">Ledger</span>
+                  JobTrack <span className="text-ledger">Ledger</span>
                 </h1>
                 <button
-                  onClick={onOpenLoginModal}
+                  onClick={() => {
+                    if (licenseState?.isAuthenticated && !licenseState?.isGuest) {
+                      navigate('/profile');
+                    } else {
+                      onOpenLoginModal();
+                    }
+                  }}
                   className={`inline-flex items-center px-2.5 py-0.5 rounded text-[10px] sm:text-xs font-ledger-mono font-semibold shrink-0 cursor-pointer transition-colors uppercase tracking-wide ${
                     licenseState?.isAuthenticated && !licenseState?.isGuest
                       ? 'bg-brass-soft hover:opacity-80 text-ink border border-brass'
                       : 'bg-slate-soft hover:opacity-80 text-ink-soft border border-slate'
                   }`}
-                  title="Click to manage Gumroad license key"
+                  title={licenseState?.isAuthenticated && !licenseState?.isGuest ? 'View your profile' : 'Sign in / activate license'}
                 >
                   <ShieldCheck className={`w-3 h-3 mr-1 ${licenseState?.isAuthenticated && !licenseState?.isGuest ? 'text-brass' : 'text-slate'}`} />
                   <span>{licenseState?.isAuthenticated && !licenseState?.isGuest ? 'Licensed' : 'Demo'}</span>

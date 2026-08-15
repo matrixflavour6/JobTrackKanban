@@ -1,0 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+/* ===================================================================
+   DESIGN SYSTEM — "Signal": a modern, energetic SaaS look built for
+   focus and momentum during a job search. Indigo-to-violet accent duo
+   (not a literal Teal/Simplify clone), clean geometric-sans headings,
+   generous whitespace, soft colored glow on primary actions rather than
+   flat shadows — meant to feel alive/rewarding to use, not clinical.
+
+   Token names (ledger/plum/brass/stamp/slate/ink/paper) are kept from
+   an earlier visual direction on purpose — every component already
+   references these semantically (e.g. bg-ledger for primary actions,
+   bg-plum for the "interview" stage). Recoloring the tokens changes the
+   entire visual identity without needing to touch every file again.
+=================================================================== */
+
+@theme {
+  --font-display: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Menlo, monospace;
+
+  --color-paper: #f8f9fd;
+  --color-paper-dim: #eef0f9;
+  --color-ink: #14162b;
+  --color-ink-soft: #5b5f7a;
+
+  /* Primary brand / CTA / "Applied" stage — vivid indigo */
+  --color-ledger: #5b5fef;
+  --color-ledger-soft: #ececfd;
+
+  /* Danger / "Rejected" stage */
+  --color-stamp: #e4483f;
+  --color-stamp-soft: #fdebea;
+
+  /* Success / "Offer" stage — warm gold, reads as a reward, not alarm */
+  --color-brass: #e2a63b;
+  --color-brass-soft: #fbf0dc;
+
+  /* Neutral / "Wishlist" stage */
+  --color-slate: #64708a;
+  --color-slate-soft: #eef1f6;
+
+  /* Secondary accent / "Interviewing" stage — violet, pairs with indigo */
+  --color-plum: #9b5de5;
+  --color-plum-soft: #f4ebfd;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Soft ambient glow in the corner instead of a flat/paper background —
+       gives depth without the heaviness of a hard gradient block. */
+    background-image:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(91, 95, 239, 0.07), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 0%, rgba(155, 93, 229, 0.06), transparent 60%);
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.015em;
+  }
+
+  .font-ledger-mono {
+    font-family: var(--font-mono);
+  }
+
+  /* Respect reduced-motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  /* Visible keyboard focus ring */
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible, [tabindex]:focus-visible {
+    outline: 2px solid var(--color-ledger);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* Custom scrollbars matching the new ink tone */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(20, 22, 43, 0.16);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(20, 22, 43, 0.3);
+}
+
+/* Hides the scrollbar on horizontally-scrolling tab bars while keeping
+   scroll fully functional. */
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.ledger-glass {
+  background: rgba(248, 249, 253, 0.82);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+}
+
+/* Standard card surface — clean, soft-shadowed, lifts gently on hover.
+   No skeuomorphic texture; the "pleasant to use" quality comes from
+   restraint + a subtle colored glow on hover, not decoration. */
+.ledger-card {
+  background: #ffffff;
+  border: 1px solid rgba(20, 22, 43, 0.07);
+  box-shadow: 0 1px 2px rgba(20, 22, 43, 0.04), 0 1px 8px rgba(20, 22, 43, 0.03);
+  transition: box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ledger-card:hover {
+  box-shadow: 0 8px 24px rgba(91, 95, 239, 0.1), 0 2px 6px rgba(20, 22, 43, 0.05);
+  transform: translateY(-2px);
+}
+
+/* Compact status badge — soft-filled pill with a small solid dot,
+   used for stage labels on job cards and elsewhere. */
+.ledger-stamp {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  padding: 3px 9px 3px 7px;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.ledger-stamp::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+/* Soft colored glow behind primary CTA buttons — the "alive/rewarding"
+   micro-detail that separates this from a flat, clinical SaaS UI. */
+.glow-ledger {
+  box-shadow: 0 4px 14px rgba(91, 95, 239, 0.3);
+}
+.glow-ledger:hover {
+  box-shadow: 0 6px 20px rgba(91, 95, 239, 0.4);
+}

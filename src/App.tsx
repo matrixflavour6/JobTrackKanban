@@ -293,9 +293,6 @@ export default function App() {
                 setSelectedTag={setSelectedTag}
                 allTags={allTags}
                 onOpenAddModal={() => handleAddJobForStage('applied')}
-                onOpenExportModal={() => navigate('/export')}
-                onOpenToolkitModal={() => navigate('/toolkit')}
-                onOpenPortalSyncModal={() => navigate('/connect')}
                 licenseState={licenseState}
                 onOpenLoginModal={() => setIsLoginModalOpen(true)}
                 syncStatus={syncStatus}

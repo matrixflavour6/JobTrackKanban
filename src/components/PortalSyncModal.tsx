@@ -286,8 +286,8 @@ export const PortalSyncModal: React.FC<PortalSyncModalProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-paper-dim flex items-start sm:items-center justify-center sm:p-4 sm:py-10">
-      <div className="ledger-card w-full max-w-2xl rounded-none sm:rounded-3xl overflow-hidden shadow-2xl min-h-screen sm:min-h-0 sm:my-8 border-0 sm:border border-black/10">
+    <div className="max-w-2xl mx-auto">
+      <div className="ledger-card w-full rounded-2xl overflow-hidden shadow-sm border border-black/10">
         
         {/* Header */}
         <div className="bg-gradient-to-r from-ink via-plum to-ink text-white p-6 relative">

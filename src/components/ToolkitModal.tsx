@@ -177,8 +177,8 @@ Best,
   };
 
   return (
-    <div className="min-h-screen bg-paper-dim flex items-start sm:items-center justify-center sm:p-4 sm:py-8">
-      <div className="ledger-card bg-white rounded-none sm:rounded-2xl max-w-3xl w-full min-h-screen sm:min-h-0 sm:h-auto sm:max-h-[88vh] overflow-hidden shadow-2xl flex flex-col border-0 sm:border border-ink/10">
+    <div className="max-w-3xl mx-auto">
+      <div className="ledger-card bg-white rounded-2xl w-full overflow-hidden shadow-sm flex flex-col border border-ink/10">
         
         {/* Top Header */}
         <div className="px-4 sm:px-6 py-4 bg-gradient-to-r from-ink via-plum to-ink text-paper flex items-center justify-between border-b border-ink/40 shrink-0">

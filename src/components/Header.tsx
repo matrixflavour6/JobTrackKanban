@@ -33,9 +33,6 @@ interface HeaderProps {
   setSelectedTag: (tag: string | null) => void;
   allTags: string[];
   onOpenAddModal: () => void;
-  onOpenExportModal: () => void;
-  onOpenToolkitModal: () => void;
-  onOpenPortalSyncModal: () => void;
   licenseState: LicenseState;
   onOpenLoginModal: () => void;
   syncStatus: 'idle' | 'syncing' | 'synced' | 'error';
@@ -51,9 +48,6 @@ export const Header: React.FC<HeaderProps> = ({
   setSelectedTag,
   allTags,
   onOpenAddModal,
-  onOpenExportModal,
-  onOpenToolkitModal,
-  onOpenPortalSyncModal,
   licenseState,
   onOpenLoginModal,
   syncStatus,
@@ -152,33 +146,6 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Actions Bar */}
           <div className="flex items-center gap-2 flex-wrap">
             <button
-              onClick={onOpenPortalSyncModal}
-              className="inline-flex items-center px-3.5 py-1.5 sm:py-2 text-xs font-semibold rounded-full bg-gradient-to-r from-ledger to-plum hover:opacity-90 text-white shadow-2xs transition-all cursor-pointer shrink-0"
-            >
-              <Globe className="w-3.5 h-3.5 mr-1.5" />
-              <span className="hidden sm:inline">Connect Portals</span>
-              <span className="sm:hidden text-[11px]">Portals</span>
-            </button>
-
-            <button
-              onClick={onOpenToolkitModal}
-              className="inline-flex items-center px-3.5 py-1.5 sm:py-2 text-xs font-semibold rounded-full bg-paper-dim hover:bg-ink/5 text-ink border border-ink/8 shadow-2xs transition-all cursor-pointer shrink-0"
-            >
-              <BookOpen className="w-3.5 h-3.5 mr-1.5 text-plum" />
-              <span className="hidden sm:inline">Job Toolkit</span>
-              <span className="sm:hidden text-[11px]">Toolkit</span>
-            </button>
-
-            <button
-              onClick={onOpenExportModal}
-              className="inline-flex items-center px-3.5 py-1.5 sm:py-2 text-xs font-semibold rounded-full bg-paper-dim hover:bg-ink/5 text-ink border border-ink/8 shadow-2xs transition-all cursor-pointer shrink-0"
-            >
-              <Download className="w-3.5 h-3.5 mr-1.5 text-ink-soft" />
-              <span className="hidden sm:inline">Export</span>
-              <span className="sm:hidden text-[11px]">Export</span>
-            </button>
-
-            <button
               onClick={onOpenAddModal}
               className="inline-flex items-center px-4 py-1.5 sm:py-2 text-xs font-semibold rounded-full text-white bg-ledger hover:opacity-90 glow-ledger transition-all cursor-pointer shrink-0"
             >
@@ -230,7 +197,7 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="mt-2.5 pt-2.5 border-t border-ink/8 flex flex-col md:flex-row md:items-center justify-between gap-2.5">
           
           {/* View Mode Buttons (Ledger Segmented Control) */}
-          <div className="flex items-center bg-paper-dim p-1 rounded-xl border border-ink/8 self-start md:self-auto shrink-0 shadow-inner overflow-x-auto max-w-full">
+          <div className="flex items-center bg-paper-dim p-1 rounded-xl border border-ink/8 self-start md:self-auto shrink-0 shadow-inner overflow-x-auto scrollbar-hide max-w-full">
             <button
               onClick={() => navigate('/board')}
               className={`flex items-center space-x-1.5 px-3 py-1.5 text-xs rounded-lg transition-all cursor-pointer shrink-0 ${
@@ -277,6 +244,42 @@ export const Header: React.FC<HeaderProps> = ({
             >
               <Scale className="w-3.5 h-3.5" />
               <span>Compare</span>
+            </button>
+
+            <button
+              onClick={() => navigate('/connect')}
+              className={`flex items-center space-x-1.5 px-3 py-1.5 text-xs rounded-lg transition-all cursor-pointer shrink-0 ${
+                activeView === 'connect'
+                  ? 'bg-white text-ink shadow-xs font-semibold'
+                  : 'text-ink-soft hover:text-ink font-medium'
+              }`}
+            >
+              <Globe className="w-3.5 h-3.5" />
+              <span>Connect</span>
+            </button>
+
+            <button
+              onClick={() => navigate('/toolkit')}
+              className={`flex items-center space-x-1.5 px-3 py-1.5 text-xs rounded-lg transition-all cursor-pointer shrink-0 ${
+                activeView === 'toolkit'
+                  ? 'bg-white text-ink shadow-xs font-semibold'
+                  : 'text-ink-soft hover:text-ink font-medium'
+              }`}
+            >
+              <BookOpen className="w-3.5 h-3.5" />
+              <span>Toolkit</span>
+            </button>
+
+            <button
+              onClick={() => navigate('/export')}
+              className={`flex items-center space-x-1.5 px-3 py-1.5 text-xs rounded-lg transition-all cursor-pointer shrink-0 ${
+                activeView === 'export'
+                  ? 'bg-white text-ink shadow-xs font-semibold'
+                  : 'text-ink-soft hover:text-ink font-medium'
+              }`}
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Export</span>
             </button>
           </div>
 

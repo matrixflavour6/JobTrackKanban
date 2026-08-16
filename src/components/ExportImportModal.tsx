@@ -66,8 +66,8 @@ export const ExportImportModal: React.FC<ExportImportModalProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-paper-dim flex items-start sm:items-center justify-center sm:p-4 sm:py-10">
-      <div className="bg-paper rounded-none sm:rounded-md max-w-lg w-full min-h-screen sm:min-h-0 shadow-2xl overflow-hidden border-0 sm:border border-black/10">
+    <div className="max-w-lg mx-auto">
+      <div className="bg-paper rounded-md w-full shadow-sm overflow-hidden border border-black/10">
         
         {/* Modal Header */}
         <div className="px-6 py-4 border-b border-black/5 flex items-center justify-between bg-paper-dim/80">

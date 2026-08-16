@@ -3,15 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JobTrack Ledger</title>
-    <meta name="description" content="A private, local-first job search ledger — Kanban board, flow analytics, offer comparison, ATS keyword matching, and optional Google Drive/Gmail sync. Nothing leaves your browser unless you say so." />
+    <title>JobTrack Pro — Private Career & Application Manager</title>
+    <meta name="description" content="A private, local-first career management platform — Kanban board, timeline calendar, offer decision matrix, ATS keyword matching, and Google Drive sync." />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <meta name="theme-color" content="#0071e3" />
     <!--
-      Content-Security-Policy — GitHub Pages can't set real HTTP headers, so
-      this meta tag is the only enforcement mechanism available here. It's
-      intentionally scoped to exactly what this app calls: itself, Google's
-      Sign-In script/APIs (Drive + Gmail sync), and Google Fonts. Nothing
-      else can load or execute, which meaningfully limits what an injected
-      script (e.g. via a supply-chain issue in a dependency) could reach.
+      Content-Security-Policy — Scoped to Google OAuth, Google Drive/Gmail APIs,
+      Google Generative Language (Gemini AI API), and Google Fonts.
     -->
     <meta http-equiv="Content-Security-Policy" content="
       default-src 'self';
@@ -19,16 +17,15 @@
       style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
       font-src 'self' https://fonts.gstatic.com;
       img-src 'self' data: https://*.googleusercontent.com;
-      connect-src 'self' https://www.googleapis.com https://gmail.googleapis.com https://oauth2.googleapis.com https://accounts.google.com https://api.gumroad.com;
+      connect-src 'self' https://www.googleapis.com https://gmail.googleapis.com https://oauth2.googleapis.com https://accounts.google.com https://api.gumroad.com https://generativelanguage.googleapis.com;
       frame-src https://accounts.google.com;
       object-src 'none';
       base-uri 'self';
     " />
-    <script type="module" crossorigin src="./assets/index-BBCjprJK.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-D3yNUkoK.css">
+    <script type="module" crossorigin src="./assets/index-CJKdBQFB.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-DN4jIL3c.css">
   </head>
   <body>
     <div id="root"></div>
   </body>
 </html>
-

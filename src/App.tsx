@@ -292,7 +292,18 @@ export default function App() {
       {/* Primary Routes */}
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/login" element={
+          <LoginPage
+            licenseState={licenseState}
+            onLoginSuccess={(newLicense) => {
+              setLicenseState(newLicense);
+              showToast(`License Activated: Welcome ${newLicense.userName}!`, 'success');
+            }}
+            onEnterDemoMode={() => {
+              showToast('Entered Guest Preview', 'info');
+            }}
+          />
+        } />
 
         {/* Core App Shell */}
         <Route
@@ -348,6 +359,8 @@ export default function App() {
                   <Route path="/analytics" element={
                     <AnalyticsView
                       applications={applications}
+                      onEditJob={handleEditJob}
+                      isLicensed={licenseState.isAuthenticated && !licenseState.isGuest}
                     />
                   } />
 

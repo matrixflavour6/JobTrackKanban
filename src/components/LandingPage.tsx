@@ -1,10 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'motion/react';
+import { motion, Variants } from 'motion/react';
 import { Shield, GitBranch, Scale, Target, Cloud, ArrowRight } from 'lucide-react';
 import { AppFooter } from './AppFooter';
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 28 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
 };

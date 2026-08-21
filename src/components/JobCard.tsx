@@ -63,7 +63,12 @@ export const JobCard: React.FC<JobCardProps> = ({
       transition={{ type: 'spring', stiffness: 350, damping: 28 }}
       whileHover={{ y: -3, transition: { duration: 0.15 } }}
       draggable
-      onDragStart={(e) => onDragStart(e, job.id)}
+      // motion.div's own TypeScript types claim onDragStart is for its pan-gesture
+      // system ((event, info: PanInfo) => void), which conflicts with the native
+      // HTML5 draggable/ondragstart API this card actually uses. The native drag
+      // event still fires correctly at the real DOM level regardless — this cast
+      // only silences a type mismatch, it doesn't change runtime behavior.
+      onDragStart={((e: React.DragEvent<HTMLDivElement>) => onDragStart(e, job.id)) as any}
       className="ledger-card group relative rounded-md p-4 pt-5 cursor-grab active:cursor-grabbing select-none"
     >
       {/* Signature stage stamp — rotated rubber-stamp badge, top-right corner */}
